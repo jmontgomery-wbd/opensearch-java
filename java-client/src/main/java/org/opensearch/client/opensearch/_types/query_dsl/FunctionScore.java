@@ -108,7 +108,7 @@ public class FunctionScore implements TaggedUnion<FunctionScore.Kind, Object>, J
 
     public FunctionScore(FunctionScoreVariant value) {
 
-        this._kind = ApiTypeHelper.requireNonNull(value._functionScoreKind(), this, "<variant kind>");
+        this._kind = value._functionScoreKind();
         this._value = ApiTypeHelper.requireNonNull(value, this, "<variant value>");
 
         this.filter = null;
@@ -118,7 +118,7 @@ public class FunctionScore implements TaggedUnion<FunctionScore.Kind, Object>, J
 
     private FunctionScore(Builder builder) {
 
-        this._kind = ApiTypeHelper.requireNonNull(builder._kind, builder, "<variant kind>");
+        this._kind = builder._kind;
         this._value = ApiTypeHelper.requireNonNull(builder._value, builder, "<variant value>");
 
         this.filter = builder.filter;
@@ -266,9 +266,11 @@ public class FunctionScore implements TaggedUnion<FunctionScore.Kind, Object>, J
 
         }
 
-        generator.writeKey(_kind.jsonValue());
-        if (_value instanceof JsonpSerializable) {
-            ((JsonpSerializable) _value).serialize(generator, mapper);
+        if (_kind != null) {
+            generator.writeKey(_kind.jsonValue());
+            if (_value instanceof JsonpSerializable) {
+                ((JsonpSerializable) _value).serialize(generator, mapper);
+            }
         }
 
         generator.writeEnd();
